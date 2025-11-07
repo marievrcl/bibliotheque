@@ -5,28 +5,110 @@
 #include <string.h>
 #include "livres.h"
 
+// === AJOUTER UN LIVRE ===
 void ajouterLivre(Livre *livres, int *nbLivres) {
-    printf("[TODO] ajouterLivre\n");
-    (void)livres; (void)nbLivres;
+    Livre nouveau;
+
+    printf("\n--- AJOUT D'UN LIVRE ---\n");
+    nouveau.id = *nbLivres + 1;
+
+    printf("Titre : ");
+    scanf(" %[^\n]", nouveau.titre); // lit une ligne entière
+    printf("Auteur : ");
+    scanf(" %[^\n]", nouveau.auteur);
+    printf("Catégorie : ");
+    scanf(" %[^\n]", nouveau.categorie);
+    printf("ISBN : ");
+    scanf(" %[^\n]", nouveau.isbn);
+    printf("Année : ");
+    scanf("%d", &nouveau.annee);
+
+    nouveau.disponible = 1;
+
+    livres[*nbLivres] = nouveau;
+    (*nbLivres)++;
+
+    printf("Livre ajouté avec succès !\n");
 }
-void supprimerLivre(Livre *livres, int *nbLivres, int id) {
-    printf("[TODO] supprimerLivre id=%d\n", id);
-    (void)livres; (void)nbLivres;
-}
-void modifierLivre(Livre *livres, int nbLivres, int id) {
-    printf("[TODO] modifierLivre id=%d\n", id);
-    (void)livres; (void)nbLivres;
-}
+
+// === AFFICHER LES LIVRES ===
 void afficherLivres(Livre *livres, int nbLivres) {
-    printf("[TODO] afficherLivres (%d livres)\n", nbLivres);
-    (void)livres;
+    printf("\n--- LISTE DES LIVRES ---\n");
+    if (nbLivres == 0) {
+        printf("Aucun livre enregistré.\n");
+        return;
+    }
+
+    for (int i = 0; i < nbLivres; i++) {
+        printf("[%d] %s - %s (%d) | Catégorie: %s | ISBN: %s | %s\n",
+               livres[i].id,
+               livres[i].titre,
+               livres[i].auteur,
+               livres[i].annee,
+               livres[i].categorie,
+               livres[i].isbn,
+               livres[i].disponible ? "Disponible" : "Emprunté");
+    }
 }
+
+// === SUPPRIMER UN LIVRE ===
+void supprimerLivre(Livre *livres, int *nbLivres, int id) {
+    int found = 0;
+    for (int i = 0; i < *nbLivres; i++) {
+        if (livres[i].id == id) {
+            for (int j = i; j < *nbLivres - 1; j++) {
+                livres[j] = livres[j + 1];
+            }
+            (*nbLivres)--;
+            found = 1;
+            printf("Livre supprimé avec succès.\n");
+            break;
+        }
+    }
+    if (!found) printf("Livre non trouvé.\n");
+}
+
+// === MODIFIER UN LIVRE ===
+void modifierLivre(Livre *livres, int nbLivres, int id) {
+    for (int i = 0; i < nbLivres; i++) {
+        if (livres[i].id == id) {
+            printf("\n--- MODIFICATION DU LIVRE [%d] ---\n", id);
+            printf("Nouveau titre : ");
+            scanf(" %[^\n]", livres[i].titre);
+            printf("Nouvel auteur : ");
+            scanf(" %[^\n]", livres[i].auteur);
+            printf("Nouvelle catégorie : ");
+            scanf(" %[^\n]", livres[i].categorie);
+            printf("Nouvelle année : ");
+            scanf("%d", &livres[i].annee);
+            printf("Livre modifié avec succès \n");
+            return;
+        }
+    }
+    printf("Livre introuvable.\n");
+}
+
+// === RECHERCHER UN LIVRE PAR TITRE ===
 int rechercherLivre(Livre *livres, int nbLivres, char *titre) {
-    printf("[TODO] rechercherLivre titre=\"%s\"\n", titre ? titre : "(null)");
-    (void)livres; (void)nbLivres;
+    for (int i = 0; i < nbLivres; i++) {
+        if (strcmp(livres[i].titre, titre) == 0) {
+            return i;
+        }
+    }
     return -1;
 }
+
+// === TRIER LES LIVRES PAR TITRE ===
 void trierLivres(Livre *livres, int nbLivres) {
-    printf("[TODO] trierLivres (%d)\n", nbLivres);
-    (void)livres;
+    Livre temp;
+    for (int i = 0; i < nbLivres - 1; i++) {
+        for (int j = i + 1; j < nbLivres; j++) {
+            if (strcmp(livres[i].titre, livres[j].titre) > 0) {
+                temp = livres[i];
+                livres[i] = livres[j];
+                livres[j] = temp;
+            }
+        }
+    }
+    printf("Livres triés par titre.\n");
 }
