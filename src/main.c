@@ -63,9 +63,35 @@ int main(void) {
                 break;
             }
 
-            case 2:
-                afficherUtilisateurs(utilisateurs, nbUsers);
+            case 2: {
+                int sous;
+                do {
+                    printf("\n--- GESTION DES UTILISATEURS ---\n");
+                    printf("1. Afficher les utilisateurs\n");
+                    printf("2. Ajouter un utilisateur\n");
+                    printf("3. Supprimer un utilisateur\n");
+                    printf("0. Retour\n");
+                    printf("Choix : ");
+                    if (scanf("%d", &sous) != 1) sous = 0;
+                    int c; while ((c = getchar()) != '\n' && c != EOF) {} // clearInputBuffer simple
+
+                    switch (sous) {
+                        case 1: afficherUtilisateurs(utilisateurs, nbUsers); break;
+                        case 2: ajouterUtilisateur(utilisateurs, &nbUsers);  break;
+                        case 3: {
+                            int id;
+                            printf("ID à supprimer : ");
+                            if (scanf("%d", &id) != 1) { while ((c = getchar()) != '\n' && c != EOF) {} break; }
+                            while ((c = getchar()) != '\n' && c != EOF) {}
+                            supprimerUtilisateur(utilisateurs, &nbUsers, id);
+                            break;
+                        }
+                        case 0: printf("Retour au menu principal...\n"); break;
+                        default: printf("Choix invalide.\n");
+                    }
+                } while (sous != 0);
                 break;
+            }
 
             case 3:
                 verifierRetards(emprunts, nbEmprunts);

@@ -44,7 +44,7 @@ void ajouterUtilisateur(Utilisateur *users, int *nbUsers) {
         printf("Email : "); lireLigne(u.email, sizeof(u.email));
         if (u.email[0] == '\0') { printf("Email vide, réessaie.\n"); continue; }
         if (indexParEmail(users, *nbUsers, u.email) != -1) {
-            printf("❌ Email déjà utilisé. Réessaie.\n");
+            printf("Email déjà utilisé. Réessaie.\n");
             continue;
         }
         break;
@@ -54,7 +54,7 @@ void ajouterUtilisateur(Utilisateur *users, int *nbUsers) {
 
     users[*nbUsers] = u;
     (*nbUsers)++;
-    printf("✅ Utilisateur ajouté (id=%d).\n", u.id);
+    printf("Utilisateur ajouté (id=%d).\n", u.id);
 }
 
 void supprimerUtilisateur(Utilisateur *users, int *nbUsers, int id) {
@@ -62,12 +62,12 @@ void supprimerUtilisateur(Utilisateur *users, int *nbUsers, int id) {
     for (int i = 0; i < *nbUsers; i++) {
         if (users[i].id == id) { pos = i; break; }
     }
-    if (pos == -1) { printf("❌ Utilisateur introuvable (id=%d).\n", id); return; }
+    if (pos == -1) { printf("Utilisateur introuvable (id=%d).\n", id); return; }
 
     // décaler pour combler le trou
     for (int j = pos; j < *nbUsers - 1; j++) users[j] = users[j + 1];
     (*nbUsers)--;
-    printf("🗑️ Utilisateur %d supprimé.\n", id);
+    printf("Utilisateur %d supprimé.\n", id);
 }
 
 void afficherUtilisateurs(Utilisateur *users, int nbUsers) {
