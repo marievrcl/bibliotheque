@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include "emprunts.h"
 
-// --------- Utils I/O ----------
 static void lireLigne(char *buf, size_t n) {
     if (!fgets(buf, (int)n, stdin)) { buf[0] = '\0'; return; }
     size_t len = strlen(buf);
@@ -21,7 +20,7 @@ static int joursDansMois(int m, int y){
     if(m==2 && estBissextile(y)) return 29;
     return base[m-1];
 }
-// convertit JJ/MM/AAAA -> jours depuis 01/01/1970 (approx. suffisante pour diff)
+
 static int toEpochLike(const char *d){
     int j=0,m=0,a=0;
     if (sscanf(d, "%d/%d/%d", &j,&m,&a) != 3) return -1;
@@ -40,7 +39,6 @@ static int diffJours(const char *d1, const char *d2){
     return b - a;
 }
 
-// --------- Helpers recherche ----------
 static int indexLivreParId(Livre *livres, int nbLivres, int id){
     for(int i=0;i<nbLivres;i++) if(livres[i].id==id) return i;
     return -1;
@@ -60,7 +58,6 @@ static int nextEmpruntId(Emprunt *e, int nb){
     return max+1;
 }
 
-// --------- API demandée ----------
 void emprunterLivre(Livre *livres, int nbLivres,
                     Utilisateur *users, int nbUsers,
                     Emprunt *emprunts, int *nbEmprunts)
