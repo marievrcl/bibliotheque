@@ -15,3 +15,4 @@ add_executable(bibliotheque
         src/fichiers.c
         src/stats.c
 )
+target_compile_definitions(bibliotheque PRIVATE DATA_DIR="${CMAKE_SOURCE_DIR}/data")
