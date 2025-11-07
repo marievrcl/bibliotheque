@@ -37,7 +37,7 @@ void chargerLivres(Livre *livres, int *nbLivres) {
     snprintf(path, sizeof(path), "%s/livres.txt", base);
     FILE *f = fopen(path, "r");
     if (!f) {
-        printf("⚠️ Fichier introuvable : %s (créé lors de la première sauvegarde)\n", path);
+        printf("Fichier introuvable : %s (créé lors de la première sauvegarde)\n", path);
         return;
     }
 
@@ -52,7 +52,7 @@ void chargerLivres(Livre *livres, int *nbLivres) {
         (*nbLivres)++;
     }
     fclose(f);
-    printf("✅ %d livres chargés depuis %s\n", *nbLivres, path);
+    printf("%d livres chargés depuis %s\n", *nbLivres, path);
 }
 
 void sauvegarderLivres(Livre *livres, int nbLivres) {
@@ -61,7 +61,7 @@ void sauvegarderLivres(Livre *livres, int nbLivres) {
     char path[512];
     snprintf(path, sizeof(path), "%s/livres.txt", base);
     FILE *f = fopen(path, "w");
-    if (!f) { printf("❌ Impossible d’ouvrir %s\n", path); return; }
+    if (!f) { printf("Impossible d’ouvrir %s\n", path); return; }
 
     for (int i = 0; i < nbLivres; i++) {
         fprintf(f, "%d;%s;%s;%s;%s;%d;%d\n",
@@ -74,7 +74,7 @@ void sauvegarderLivres(Livre *livres, int nbLivres) {
                 livres[i].disponible);
     }
     fclose(f);
-    printf("💾 %d livres sauvegardés dans %s\n", nbLivres, path);
+    printf("%d livres sauvegardés dans %s\n", nbLivres, path);
 }
 
 /* =================== UTILISATEURS =================== */
@@ -84,7 +84,7 @@ void chargerUtilisateurs(Utilisateur *users, int *nbUsers) {
     char path[512];
     snprintf(path, sizeof(path), "%s/utilisateurs.txt", base);
     FILE *f = fopen(path, "r");
-    if (!f) { printf("⚠️ Fichier introuvable : %s\n", path); return; }
+    if (!f) { printf("Fichier introuvable : %s\n", path); return; }
 
     while (fscanf(f, "%d;%49[^;];%49[^;];%99[^;];%d\n",
                   &users[*nbUsers].id,
@@ -95,7 +95,7 @@ void chargerUtilisateurs(Utilisateur *users, int *nbUsers) {
         (*nbUsers)++;
     }
     fclose(f);
-    printf("✅ %d utilisateurs chargés depuis %s\n", *nbUsers, path);
+    printf("%d utilisateurs chargés depuis %s\n", *nbUsers, path);
 }
 
 void sauvegarderUtilisateurs(Utilisateur *users, int nbUsers) {
@@ -104,7 +104,7 @@ void sauvegarderUtilisateurs(Utilisateur *users, int nbUsers) {
     char path[512];
     snprintf(path, sizeof(path), "%s/utilisateurs.txt", base);
     FILE *f = fopen(path, "w");
-    if (!f) { printf("❌ Impossible d’ouvrir %s\n", path); return; }
+    if (!f) { printf("Impossible d’ouvrir %s\n", path); return; }
 
     for (int i = 0; i < nbUsers; i++) {
         fprintf(f, "%d;%s;%s;%s;%d\n",
@@ -115,7 +115,7 @@ void sauvegarderUtilisateurs(Utilisateur *users, int nbUsers) {
                 users[i].quota);
     }
     fclose(f);
-    printf("💾 %d utilisateurs sauvegardés dans %s\n", nbUsers, path);
+    printf("%d utilisateurs sauvegardés dans %s\n", nbUsers, path);
 }
 
 /* =================== EMPRUNTS =================== */
@@ -125,7 +125,7 @@ void chargerEmprunts(Emprunt *emprunts, int *nbEmprunts) {
     char path[512];
     snprintf(path, sizeof(path), "%s/emprunts.txt", base);
     FILE *f = fopen(path, "r");
-    if (!f) { printf("⚠️ Fichier introuvable : %s\n", path); return; }
+    if (!f) { printf("Fichier introuvable : %s\n", path); return; }
 
     while (fscanf(f, "%d;%d;%d;%10[^;];%10[^;];%d\n",
                   &emprunts[*nbEmprunts].idEmprunt,
@@ -137,7 +137,7 @@ void chargerEmprunts(Emprunt *emprunts, int *nbEmprunts) {
         (*nbEmprunts)++;
     }
     fclose(f);
-    printf("✅ %d emprunts chargés depuis %s\n", *nbEmprunts, path);
+    printf("%d emprunts chargés depuis %s\n", *nbEmprunts, path);
 }
 
 void sauvegarderEmprunts(Emprunt *emprunts, int nbEmprunts) {
@@ -146,7 +146,7 @@ void sauvegarderEmprunts(Emprunt *emprunts, int nbEmprunts) {
     char path[512];
     snprintf(path, sizeof(path), "%s/emprunts.txt", base);
     FILE *f = fopen(path, "w");
-    if (!f) { printf("❌ Impossible d’ouvrir %s\n", path); return; }
+    if (!f) { printf("Impossible d’ouvrir %s\n", path); return; }
 
     for (int i = 0; i < nbEmprunts; i++) {
         fprintf(f, "%d;%d;%d;%s;%s;%d\n",
@@ -158,5 +158,5 @@ void sauvegarderEmprunts(Emprunt *emprunts, int nbEmprunts) {
                 emprunts[i].retard);
     }
     fclose(f);
-    printf("💾 %d emprunts sauvegardés dans %s\n", nbEmprunts, path);
+    printf("%d emprunts sauvegardés dans %s\n", nbEmprunts, path);
 }
