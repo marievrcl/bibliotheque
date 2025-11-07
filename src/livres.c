@@ -39,15 +39,16 @@ void afficherLivres(Livre *livres, int nbLivres) {
         return;
     }
 
+    printf("%-4s | %-30s | %-18s | %-6s | %-3s\n", "ID", "Titre", "Auteur", "ISBN", "Dispo");
+    printf("-------------------------------------------------------------------------------\n");
+
     for (int i = 0; i < nbLivres; i++) {
-        printf("[%d] %s - %s (%d) | Catégorie: %s | ISBN: %s | %s\n",
+        printf("%-4d | %-30s | %-18s | %-6s | %-3s\n",
                livres[i].id,
                livres[i].titre,
                livres[i].auteur,
-               livres[i].annee,
-               livres[i].categorie,
                livres[i].isbn,
-               livres[i].disponible ? "Disponible" : "Emprunté");
+               livres[i].disponible ? "Oui" : "Non");
     }
 }
 
@@ -81,7 +82,7 @@ void modifierLivre(Livre *livres, int nbLivres, int id) {
             scanf(" %[^\n]", livres[i].categorie);
             printf("Nouvelle année : ");
             scanf("%d", &livres[i].annee);
-            printf("Livre modifié avec succès \n");
+            printf("Livre modifié avec succès.\n");
             return;
         }
     }
@@ -112,3 +113,4 @@ void trierLivres(Livre *livres, int nbLivres) {
     }
     printf("Livres triés par titre.\n");
 }
+
