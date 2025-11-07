@@ -13,7 +13,7 @@ void ajouterLivre(Livre *livres, int *nbLivres) {
     nouveau.id = *nbLivres + 1;
 
     printf("Titre : ");
-    scanf(" %[^\n]", nouveau.titre); // lit une ligne entière
+    scanf(" %[^\n]", nouveau.titre);
     printf("Auteur : ");
     scanf(" %[^\n]", nouveau.auteur);
     printf("Catégorie : ");
@@ -28,7 +28,7 @@ void ajouterLivre(Livre *livres, int *nbLivres) {
     livres[*nbLivres] = nouveau;
     (*nbLivres)++;
 
-    printf("Livre ajouté avec succès !\n");
+    printf("Livre ajouté avec succès ! (ID: %d, ISBN: %s)\n", nouveau.id, nouveau.isbn);
 }
 
 // === AFFICHER LES LIVRES ===
@@ -39,14 +39,16 @@ void afficherLivres(Livre *livres, int nbLivres) {
         return;
     }
 
-    printf("%-4s | %-30s | %-18s | %-6s | %-3s\n", "ID", "Titre", "Auteur", "ISBN", "Dispo");
-    printf("-------------------------------------------------------------------------------\n");
+    printf("%-4s | %-30s | %-18s | %-12s | %-10s | %-3s\n",
+           "ID", "Titre", "Auteur", "Catégorie", "ISBN", "Dispo");
+    printf("-------------------------------------------------------------------------------------------\n");
 
     for (int i = 0; i < nbLivres; i++) {
-        printf("%-4d | %-30s | %-18s | %-6s | %-3s\n",
+        printf("%-4d | %-30s | %-18s | %-12s | %-10s | %-3s\n",
                livres[i].id,
                livres[i].titre,
                livres[i].auteur,
+               livres[i].categorie,
                livres[i].isbn,
                livres[i].disponible ? "Oui" : "Non");
     }
@@ -62,7 +64,7 @@ void supprimerLivre(Livre *livres, int *nbLivres, int id) {
             }
             (*nbLivres)--;
             found = 1;
-            printf("Livre supprimé avec succès.\n");
+            printf("Livre supprimé avec succès (ID %d).\n", id);
             break;
         }
     }
@@ -80,6 +82,8 @@ void modifierLivre(Livre *livres, int nbLivres, int id) {
             scanf(" %[^\n]", livres[i].auteur);
             printf("Nouvelle catégorie : ");
             scanf(" %[^\n]", livres[i].categorie);
+            printf("Nouveau ISBN : ");
+            scanf(" %[^\n]", livres[i].isbn);
             printf("Nouvelle année : ");
             scanf("%d", &livres[i].annee);
             printf("Livre modifié avec succès.\n");
@@ -93,6 +97,16 @@ void modifierLivre(Livre *livres, int nbLivres, int id) {
 int rechercherLivre(Livre *livres, int nbLivres, char *titre) {
     for (int i = 0; i < nbLivres; i++) {
         if (strcmp(livres[i].titre, titre) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+// === RECHERCHER UN LIVRE PAR ISBN ===
+int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn) {
+    for (int i = 0; i < nbLivres; i++) {
+        if (strcmp(livres[i].isbn, isbn) == 0) {
             return i;
         }
     }
@@ -113,4 +127,5 @@ void trierLivres(Livre *livres, int nbLivres) {
     }
     printf("Livres triés par titre.\n");
 }
+
 
