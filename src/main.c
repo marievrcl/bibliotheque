@@ -92,8 +92,6 @@ int main(void) {
                 } while (sous != 0);
                 break;
             }
-
-            case 3:
             case 3: {
                 int sous;
                 do {
