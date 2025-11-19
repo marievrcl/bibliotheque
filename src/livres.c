@@ -1,6 +1,3 @@
-//
-// Created by Marie Viricel on 06/11/2025.
-//
 #include <stdio.h>
 #include <string.h>
 #include "livres.h"
@@ -10,6 +7,8 @@ void ajouterLivre(Livre *livres, int *nbLivres) {
     Livre nouveau;
 
     printf("\n--- AJOUT D'UN LIVRE ---\n");
+
+    // ID simple : position dans le tableau + 1
     nouveau.id = *nbLivres + 1;
 
     printf("Titre : ");
@@ -23,12 +22,15 @@ void ajouterLivre(Livre *livres, int *nbLivres) {
     printf("Année : ");
     scanf("%d", &nouveau.annee);
 
+    // Le livre est dispo par défaut
     nouveau.disponible = 1;
 
+    // Insertion dans le tableau
     livres[*nbLivres] = nouveau;
     (*nbLivres)++;
 
-    printf("Livre ajouté avec succès ! (ID: %d, ISBN: %s)\n", nouveau.id, nouveau.isbn);
+    printf("Livre ajouté avec succès ! (ID: %d, ISBN: %s)\n",
+           nouveau.id, nouveau.isbn);
 }
 
 // === AFFICHER LES LIVRES ===
@@ -39,6 +41,7 @@ void afficherLivres(Livre *livres, int nbLivres) {
         return;
     }
 
+    // En-tête de tableau bien alignée
     printf("%-4s | %-30s | %-18s | %-12s | %-10s | %-3s\n",
            "ID", "Titre", "Auteur", "Catégorie", "ISBN", "Dispo");
     printf("-------------------------------------------------------------------------------------------\n");
@@ -59,6 +62,7 @@ void supprimerLivre(Livre *livres, int *nbLivres, int id) {
     int found = 0;
     for (int i = 0; i < *nbLivres; i++) {
         if (livres[i].id == id) {
+            // Décale tous les livres suivants vers la gauche
             for (int j = i; j < *nbLivres - 1; j++) {
                 livres[j] = livres[j + 1];
             }
@@ -113,7 +117,7 @@ int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn) {
     return -1;
 }
 
-// === TRIER LES LIVRES PAR TITRE ===
+// === TRIER LES LIVRES PAR TITRE (tri simple par échange) ===
 void trierLivres(Livre *livres, int nbLivres) {
     Livre temp;
     for (int i = 0; i < nbLivres - 1; i++) {
