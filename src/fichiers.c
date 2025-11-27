@@ -193,3 +193,4 @@ void sauvegarderEmprunts(Emprunt *emprunts, int nbEmprunts) {
     printf("%d emprunts sauvegardés dans %s\n", nbEmprunts, path);
 }
 
+

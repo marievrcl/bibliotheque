@@ -3,7 +3,6 @@
 // Déclare les fonctions pour charger et sauvegarder les livres, utilisateurs et emprunts
 // dans des fichiers texte (.txt) séparés.
 //
-
 #ifndef FICHIERS_H
 #define FICHIERS_H
 
@@ -12,10 +11,9 @@
 #include "emprunts.h"
 
 // Charge la liste des livres depuis data/livres.txt
-// Remplit le tableau livres[] et met à jour nbLivres.
 void chargerLivres(Livre *livres, int *nbLivres);
 
-// Sauvegarde tous les livres du tableau dans data/livres.txt
+// Sauvegarde tous les livres dans data/livres.txt
 void sauvegarderLivres(Livre *livres, int nbLivres);
 
 // Charge la liste des utilisateurs depuis data/utilisateurs.txt
@@ -31,3 +29,4 @@ void chargerEmprunts(Emprunt *emprunts, int *nbEmprunts);
 void sauvegarderEmprunts(Emprunt *emprunts, int nbEmprunts);
 
 #endif // FICHIERS_H
+
