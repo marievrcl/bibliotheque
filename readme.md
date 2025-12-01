@@ -1,4 +1,4 @@
-# Projet ALGO C ING3 
+## Projet ALGO C ING3 
 ## RÉSUMÉ – Quel est le contexte et la problématique du projet ? 
 Le projet a été réalisé sur 7 semaines dans le cadre des cours de bases de données et de programmation en C. L’objectif était de mettre en pratique les compétences acquises et de développer notre autonomie. La problématique principale était de créer une bibliothèque numérique capable de gérer efficacement les livres, les utilisateurs et les emprunts, tout en permettant de sauvegarder et de charger les données facilement.
 ## Quels sont les objectifs techniques ? 
