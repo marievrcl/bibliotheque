@@ -1,3 +1,12 @@
+//
+// Created by Marie Viricel on 01/12/2025.
+//
+
+#ifndef BIBLIOTHEQUE_RAYLIB_RAYGUI_H
+#define BIBLIOTHEQUE_RAYLIB_RAYGUI_H
+
+#endif //BIBLIOTHEQUE_RAYLIB_RAYGUI_H
+
 /*******************************************************************************************
 *
 *   raygui v4.0 - A simple and easy-to-use immediate-mode gui library

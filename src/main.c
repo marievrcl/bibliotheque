@@ -1,6 +1,14 @@
 //
 // Created by Marie Viricel on 06/11/2025.
 //
+
+//
+// Created by Marie Viricel on 06/11/2025.
+//
+
+//
+// Created by Marie Viricel on 06/11/2025.
+//
 #include <stdio.h>
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
@@ -190,4 +198,3 @@ int main(void)
     CloseWindow();
     return 0;
 }
-

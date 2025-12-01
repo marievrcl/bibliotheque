@@ -1,5 +1,5 @@
 # Projet bibliothèque en C (C99)
-# Projet bibliothèque en C (C99)
+
 cmake_minimum_required(VERSION 3.16)
 project(bibliotheque_raylib C)
 
@@ -37,4 +37,6 @@ add_executable(bibliotheque
 
 # Lier Raylib à ton exécutable
 target_link_libraries(bibliotheque PRIVATE raylib)
+
+
 
