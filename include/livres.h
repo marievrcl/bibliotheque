@@ -1,8 +1,3 @@
-//
-// Module de gestion des livres : structure Livre et fonctions
-// pour ajouter, afficher, modifier, supprimer, rechercher et trier.
-//
-
 #ifndef LIVRES_H
 #define LIVRES_H
 
@@ -39,6 +34,5 @@ int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn);
 // Trie les livres par ordre alphabétique de titre (tri simple)
 void trierLivres(Livre *livres, int nbLivres);
 
+void ajouterLivreGui(Livre livres[], int *nb, Livre aRajouter);
 #endif // LIVRES_H
-
-

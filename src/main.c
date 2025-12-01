@@ -1,10 +1,9 @@
-//
-// Created by Marie Viricel on 06/11/2025.
-//
-#include <stdio.h>
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+
+#include <stdio.h>
+#include <string.h>
 
 #include "livres.h"
 #include "utilisateurs.h"
@@ -12,182 +11,246 @@
 #include "fichiers.h"
 #include "stats.h"
 
-// ---------------------------------------------------------
-// Déclaration du menu console dans une fonction séparée
-// ---------------------------------------------------------
-void lancerMenuConsole() {
+#define MAX_LIVRES 100
+#define MAX_USERS 100
+#define MAX_EMPRUNTS 100
 
-    // Tableaux statiques pour stocker les données en mémoire
-    Livre livres[100];
-    Utilisateur utilisateurs[100];
-    Emprunt emprunts[100];
+typedef enum {
+    MENU,
+    LIVRES,
+    AJOUT_LIVRE,
+    SUPPR_LIVRE,
+    USERS,
+    AJOUT_USER,
+    SUPPR_USER,
+    EMPRUNTS,
+    STATS
+} Mode;
+
+int main(void)
+{
+    // ========= Données mémoire =========
+    Livre livres[MAX_LIVRES];
+    Utilisateur utilisateurs[MAX_USERS];
+    Emprunt emprunts[MAX_EMPRUNTS];
 
     int nbLivres = 0, nbUsers = 0, nbEmprunts = 0;
 
-    // ========= CHARGEMENT DES DONNÉES =========
     chargerLivres(livres, &nbLivres);
     chargerUtilisateurs(utilisateurs, &nbUsers);
     chargerEmprunts(emprunts, &nbEmprunts);
 
-    int choix;
-    do {
-        printf("\n=== MENU BIBLIOTHÈQUE ===\n");
-        printf("1. Gestion des livres\n");
-        printf("2. Gestion des utilisateurs\n");
-        printf("3. Gestion des emprunts\n");
-        printf("4. Statistiques\n");
-        printf("5. Ouvrir interface graphique\n");
-        printf("0. Quitter\n");
-        printf("Choix : ");
-        if (scanf("%d", &choix) != 1) choix = 0;
-
-        switch (choix) {
-
-            case 1: {
-                int sousChoix;
-                do {
-                    printf("\n--- GESTION DES LIVRES ---\n");
-                    printf("1. Afficher les livres\n");
-                    printf("2. Ajouter un livre\n");
-                    printf("0. Retour\n");
-                    printf("Choix : ");
-                    if (scanf("%d", &sousChoix) != 1) sousChoix = 0;
-
-                    switch (sousChoix) {
-                        case 1: afficherLivres(livres, nbLivres); break;
-                        case 2: ajouterLivre(livres, &nbLivres); break;
-                        case 0: break;
-                        default: printf("Choix invalide.\n");
-                    }
-                } while (sousChoix != 0);
-                break;
-            }
-
-            case 2: {
-                int sous;
-                do {
-                    printf("\n--- GESTION DES UTILISATEURS ---\n");
-                    printf("1. Afficher les utilisateurs\n");
-                    printf("2. Ajouter un utilisateur\n");
-                    printf("3. Supprimer un utilisateur\n");
-                    printf("0. Retour\n");
-                    printf("Choix : ");
-                    if (scanf("%d", &sous) != 1) sous = 0;
-
-                    int c; while ((c = getchar()) != '\n' && c != EOF) {} // vide buffer
-
-                    switch (sous) {
-                        case 1: afficherUtilisateurs(utilisateurs, nbUsers); break;
-                        case 2: ajouterUtilisateur(utilisateurs, &nbUsers); break;
-                        case 3: {
-                            int id;
-                            printf("ID à supprimer : ");
-                            if (scanf("%d", &id) == 1)
-                                supprimerUtilisateur(utilisateurs, &nbUsers, id);
-                            break;
-                        }
-                        case 0: break;
-                        default: printf("Choix invalide.\n");
-                    }
-                } while (sous != 0);
-                break;
-            }
-
-            case 3: {
-                int sous;
-                do {
-                    printf("\n--- GESTION DES EMPRUNTS ---\n");
-                    printf("1. Emprunter un livre\n");
-                    printf("2. Retourner un livre\n");
-                    printf("3. Vérifier les retards (>15j)\n");
-                    printf("0. Retour\n");
-                    printf("Choix : ");
-                    if (scanf("%d", &sous) != 1) sous = 0;
-
-                    int c; while ((c = getchar()) != '\n' && c != EOF) {}
-
-                    switch (sous) {
-                        case 1:
-                            emprunterLivre(livres, nbLivres,
-                                           utilisateurs, nbUsers,
-                                           emprunts, &nbEmprunts);
-                            break;
-                        case 2: {
-                            int idLivre;
-                            printf("ID du livre à retourner : ");
-                            if (scanf("%d", &idLivre) == 1)
-                                retournerLivre(emprunts, &nbEmprunts, idLivre);
-                            break;
-                        }
-                        case 3: verifierRetards(emprunts, nbEmprunts); break;
-                        case 0: break;
-                        default: printf("Choix invalide.\n");
-                    }
-                } while (sous != 0);
-                break;
-            }
-
-            case 4:
-                afficherStatistiques(emprunts, nbEmprunts,
-                                     utilisateurs, nbUsers,
-                                     livres, nbLivres);
-                break;
-
-            case 0:
-                printf("Sauvegarde et fermeture...\n");
-                break;
-
-            default:
-                printf("Choix invalide.\n");
-        }
-
-    } while (choix != 0);
-
-    sauvegarderLivres(livres, nbLivres);
-    sauvegarderUtilisateurs(utilisateurs, nbUsers);
-    sauvegarderEmprunts(emprunts, nbEmprunts);
-}
-
-
-
-// ---------------------------------------------------------
-// FONCTION PRINCIPALE RAYLIB + MENU
-// ---------------------------------------------------------
-int main(void)
-{
-    // UI required variables
-    bool btnConsolePressed = false;
-
-    // === 1) Fenêtre Raylib ===
-    InitWindow(800, 450, "Interface graphique - Raylib");
+    // ========= Fenêtre Raylib =========
+    InitWindow(900, 600, "Bibliotheque - Interface Graphique");
     SetTargetFPS(60);
 
-    // Set UI style
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
-    GuiSetIconScale(2);
+    Mode mode = MENU;
 
-    // === 2) Boucle Raylib ===
+    // ========= TextBox Ajout Livre =========
+    char titreInput[100] = "";
+    bool titreEdit = false;
+    int livreASupprimer = 0;
+
+    // ========= TextBox Ajout Utilisateur =========
+    char userInput[100] = "";
+    bool userEdit = false;
+    int userASupprimer = 0;
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        DrawText("Raylib fonctionne !", 200, 200, 20, BLACK);
-        //DrawText("Appuie sur ENTER pour lancer le menu console", 150, 260, 18, DARKGRAY);
-        // Draw buttons
-        // 131 c'est l'icon PLAY voir raygui.h
-        btnConsolePressed = GuiButton((Rectangle){ 400, 200, 180, 40 }, "#131# CONSOLE");
+        // ================= MENU PRINCIPAL =================
+        if (mode == MENU)
+        {
+            DrawText("MENU PRINCIPAL", 300, 30, 30, DARKGRAY);
+
+            if (GuiButton((Rectangle){300, 120, 300, 50}, "Gerer les livres")) mode = LIVRES;
+            if (GuiButton((Rectangle){300, 190, 300, 50}, "Gerer les utilisateurs")) mode = USERS;
+            if (GuiButton((Rectangle){300, 260, 300, 50}, "Gerer les emprunts")) mode = EMPRUNTS;
+            if (GuiButton((Rectangle){300, 330, 300, 50}, "Statistiques")) mode = STATS;
+            if (GuiButton((Rectangle){300, 400, 300, 50}, "Quitter")) break;
+        }
+
+        // ===================== LIVRES =====================
+        else if (mode == LIVRES)
+        {
+            DrawText("Liste des livres :", 50, 20, 25, DARKGRAY);
+
+            for (int i = 0; i < nbLivres; i++)
+            {
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), "%d - %s", livres[i].id, livres[i].titre);
+                DrawText(buffer, 50, 70 + i * 25, 20, BLACK);
+            }
+
+            if (GuiButton((Rectangle){600, 70, 250, 40}, "Ajouter un livre"))
+                mode = AJOUT_LIVRE;
+
+            if (GuiButton((Rectangle){600, 120, 250, 40}, "Supprimer un livre"))
+                mode = SUPPR_LIVRE;
+
+            if (GuiButton((Rectangle){600, 500, 250, 40}, "Retour menu"))
+                mode = MENU;
+        }
+
+        // ================ AJOUT D’UN LIVRE ====================
+        else if (mode == AJOUT_LIVRE)
+        {
+            DrawText("Ajouter un livre", 50, 30, 25, DARKGRAY);
+
+            DrawText("Titre :", 50, 120, 20, BLACK);
+
+            if (GuiTextBox((Rectangle){140, 110, 500, 40}, titreInput, 100, titreEdit))
+                titreEdit = !titreEdit;
+
+            if (GuiButton((Rectangle){140, 180, 200, 40}, "Valider"))
+            {
+                Livre aRajouter={-1,"","","","",1970,1};
+                strcpy(aRajouter.titre, titreInput);
+                ajouterLivreGui(livres, &nbLivres, aRajouter);
+                titreInput[0] = '\0';
+                mode = LIVRES;
+            }
+
+            if (GuiButton((Rectangle){140, 240, 200, 40}, "Annuler"))
+            {
+                titreInput[0] = '\0';
+                mode = LIVRES;
+            }
+        }
+
+        // ================ SUPPRESSION LIVRE ==================
+        else if (mode == SUPPR_LIVRE)
+        {
+            DrawText("Supprimer un livre", 50, 30, 25, DARKGRAY);
+
+            DrawText("ID du livre à supprimer :", 50, 120, 20, BLACK);
+
+            char buf[10];
+            sprintf(buf, "%d", livreASupprimer);
+            if (GuiTextBox((Rectangle){250, 110, 100, 40}, buf, 10, true))
+                livreASupprimer = atoi(buf);
+
+            if (GuiButton((Rectangle){140, 180, 200, 40}, "Supprimer"))
+            {
+
+                supprimerLivre(livres, &nbLivres, livreASupprimer);
+                livreASupprimer = 0;
+                mode = LIVRES;
+            }
+
+            if (GuiButton((Rectangle){140, 240, 200, 40}, "Annuler"))
+                mode = LIVRES;
+        }
+
+        // ===================== UTILISATEURS =====================
+        else if (mode == USERS)
+        {
+            DrawText("Utilisateurs :", 50, 20, 25, DARKGRAY);
+
+            for (int i = 0; i < nbUsers; i++)
+            {
+                char buffer[200];
+                snprintf(buffer, sizeof(buffer), "%d - %s", utilisateurs[i].id, utilisateurs[i].nom);
+                DrawText(buffer, 50, 70 + i * 25, 20, BLACK);
+            }
+
+            if (GuiButton((Rectangle){600, 70, 250, 40}, "Ajouter utilisateur"))
+                mode = AJOUT_USER;
+
+            if (GuiButton((Rectangle){600, 120, 250, 40}, "Supprimer utilisateur"))
+                mode = SUPPR_USER;
+
+            if (GuiButton((Rectangle){600, 500, 250, 40}, "Retour menu"))
+                mode = MENU;
+        }
+
+        // ================ AJOUT UTILISATEUR ====================
+        else if (mode == AJOUT_USER)
+        {
+            DrawText("Ajouter un utilisateur", 50, 30, 25, DARKGRAY);
+
+            DrawText("Nom :", 50, 120, 20, BLACK);
+
+            if (GuiTextBox((Rectangle){140, 110, 500, 40}, userInput, 100, userEdit))
+                userEdit = !userEdit;
+
+            if (GuiButton((Rectangle){140, 180, 200, 40}, "Valider"))
+            {
+
+
+                //ajouterUtilisateurManuel(utilisateurs, &nbUsers, aRajouter);
+                userInput[0] = '\0';
+                mode = USERS;
+            }
+
+            if (GuiButton((Rectangle){140, 240, 200, 40}, "Annuler"))
+            {
+                userInput[0] = '\0';
+                mode = USERS;
+            }
+        }
+
+        // ================ SUPPRESSION UTILISATEUR ==================
+        else if (mode == SUPPR_USER)
+        {
+            DrawText("Supprimer un utilisateur", 50, 30, 25, DARKGRAY);
+
+            DrawText("ID utilisateur à supprimer :", 50, 120, 20, BLACK);
+
+            char buf[10];
+            sprintf(buf, "%d", userASupprimer);
+            if (GuiTextBox((Rectangle){250, 110, 100, 40}, buf, 10, true))
+                userASupprimer = atoi(buf);
+
+            if (GuiButton((Rectangle){140, 180, 200, 40}, "Supprimer"))
+            {
+                supprimerUtilisateur(utilisateurs, &nbUsers, userASupprimer);
+                userASupprimer = 0;
+                mode = USERS;
+            }
+
+            if (GuiButton((Rectangle){140, 240, 200, 40}, "Annuler"))
+                mode = USERS;
+        }
+
+        // ================ EMPRUNTS ====================
+        else if (mode == EMPRUNTS)
+        {
+            DrawText("Gestion des emprunts", 50, 20, 25, DARKGRAY);
+
+            char buffer[300];
+            snprintf(buffer, sizeof(buffer), "Emprunts totaux : %d", nbEmprunts);
+            DrawText(buffer, 50, 70, 20, BLACK);
+
+            if (GuiButton((Rectangle){600, 500, 250, 40}, "Retour menu"))
+                mode = MENU;
+        }
+
+        // ================ STATISTIQUES ====================
+        else if (mode == STATS)
+        {
+            DrawText("Statistiques :", 50, 20, 25, DARKGRAY);
+
+            char buffer[500];
+            snprintf(buffer, sizeof(buffer),
+                     "Livres : %d\nUtilisateurs : %d\nEmprunts : %d",
+                     nbLivres, nbUsers, nbEmprunts);
+
+            DrawText(buffer, 50, 70, 20, BLACK);
+
+            if (GuiButton((Rectangle){600, 500, 250, 40}, "Retour menu"))
+                mode = MENU;
+        }
 
         EndDrawing();
-
-        if (btnConsolePressed) {
-            CloseWindow();     // fermer Raylib avant la console
-            lancerMenuConsole();
-            return 0;
-        }
     }
 
+    sauvegarderLivres(livres, nbLivres);
+    sauvegarderUtilisateurs(utilisateurs, nbUsers);
+    sauvegarderEmprunts(emprunts, nbEmprunts);
     CloseWindow();
     return 0;
 }
-

@@ -13,7 +13,7 @@
  *    ./data/emprunts.txt
  */
 
-static const char *DATA_PATH = "data";
+static const char *DATA_PATH = "../data";
 
 /* Assure que le dossier data existe */
 static void ensure_dir_exists(const char *path) {
