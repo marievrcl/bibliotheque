@@ -6,6 +6,7 @@ project(bibliotheque_raylib C)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE BOOL "Suppress dev warnings")
 
 # Dossier des headers
 include_directories(${CMAKE_SOURCE_DIR}/include)
