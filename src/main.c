@@ -1,13 +1,10 @@
 //
 // Created by Marie Viricel on 06/11/2025.
 //
-
-//
-// Created by Marie Viricel on 06/11/2025.
-//
-
 #include <stdio.h>
 #include "raylib.h"
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
 
 #include "livres.h"
 #include "utilisateurs.h"
@@ -158,9 +155,16 @@ void lancerMenuConsole() {
 // ---------------------------------------------------------
 int main(void)
 {
+    // UI required variables
+    bool btnConsolePressed = false;
+
     // === 1) Fenêtre Raylib ===
     InitWindow(800, 450, "Interface graphique - Raylib");
     SetTargetFPS(60);
+
+    // Set UI style
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
+    GuiSetIconScale(2);
 
     // === 2) Boucle Raylib ===
     while (!WindowShouldClose())
@@ -169,11 +173,14 @@ int main(void)
         ClearBackground(RAYWHITE);
 
         DrawText("Raylib fonctionne !", 200, 200, 20, BLACK);
-        DrawText("Appuie sur ENTER pour lancer le menu console", 150, 260, 18, DARKGRAY);
+        //DrawText("Appuie sur ENTER pour lancer le menu console", 150, 260, 18, DARKGRAY);
+        // Draw buttons
+        // 131 c'est l'icon PLAY voir raygui.h
+        btnConsolePressed = GuiButton((Rectangle){ 400, 200, 180, 40 }, "#131# CONSOLE");
 
         EndDrawing();
 
-        if (IsKeyPressed(KEY_ENTER)) {
+        if (btnConsolePressed) {
             CloseWindow();     // fermer Raylib avant la console
             lancerMenuConsole();
             return 0;
