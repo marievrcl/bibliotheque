@@ -132,4 +132,20 @@ void trierLivres(Livre *livres, int nbLivres) {
     printf("Livres triés par titre.\n");
 }
 
+void ajouterLivreGui(Livre livres[], int *nb, Livre aRajouter)
+{
+    // Génération de l'ID automatique
+    if (*nb == 0)
+        aRajouter.id = 1;
+    else
+        aRajouter.id = livres[*nb - 1].id + 1;
+
+    // Livre disponible par défaut
+    aRajouter.disponible = 1;
+
+    // Ajout dans le tableau
+    livres[*nb] = aRajouter;
+    (*nb)++;
+}
+
 

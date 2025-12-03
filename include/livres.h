@@ -38,7 +38,7 @@ int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn);
 
 // Trie les livres par ordre alphabétique de titre (tri simple)
 void trierLivres(Livre *livres, int nbLivres);
-
+void ajouterLivreManuel(Livre livres[], int *nb, const char *titre);
 #endif // LIVRES_H
-
+void ajouterLivreGui(Livre livres[], int *nb, Livre aRajouter);
 

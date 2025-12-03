@@ -2,3 +2,4 @@
 2;Le rouge et le noir;Stendhal;Roman;1245;1890;0
 3;Les fleurs du mal;Beaudelaire;Poesie;1678;1880;1
 4;Le corbeau et le renard;Lafontaine;Poesie;1780;1880;1
+5;La cigale et la fourmie;Lafontaine;Poesie;1879;1880;1
