@@ -70,5 +70,5 @@ void retournerLivre(Emprunt *emprunts, int *nbEmprunts, int idLivre);
  * 3. Affiche les emprunts en retard.
  */
 void verifierRetards(Emprunt *emprunts, int nbEmprunts);
-
+void getDateAujourdhui(char *date); // <-- Prototype de la fonction
 #endif // EMPRUNTS_H

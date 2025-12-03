@@ -206,4 +206,12 @@ void verifierRetards(Emprunt *emprunts, int nbEmprunts)
     if (nbRetards==0) printf("Aucun retard.\n");    // si aucun retard
 }
 
+// ================== FONCTION GET DATE ==================
+#include <time.h>  // nécessaire pour time(), localtime()
+
+void getDateAujourdhui(char *date) {
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    snprintf(date, 12, "%02d/%02d/%04d", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+}
 
