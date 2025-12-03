@@ -7,6 +7,15 @@
 // Bibliothèque - Interface graphique
 //
 
+//
+// Created by Marie Viricel on 06/11/2025.
+//
+
+//
+// main.c
+// Bibliothèque - Interface graphique
+//
+
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -254,4 +263,6 @@ int main(void)
     CloseWindow();
     return 0;
 }
+
+
 

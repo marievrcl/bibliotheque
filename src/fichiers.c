@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include "fichiers.h"
 
+
 /*
  * VERSION FIXÉE — UTILISE TOUJOURS LE DOSSIER "data/" DU PROJET
  * Peu importe où l'exécutable se trouve (cmake-build-debug/ ou ailleurs),

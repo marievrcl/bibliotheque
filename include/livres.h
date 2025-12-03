@@ -35,7 +35,7 @@ int rechercherLivre(Livre *livres, int nbLivres, char *titre);
 
 // Recherche un livre par son ISBN
 // Retourne l'index du livre si trouvé, sinon -1
-int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn);
+int rechercherLivreParISBN(Livre *livres, int nbLivres, const char *isbn);
 
 // Trie les livres par ordre alphabétique selon leur titre (tri simple type bubble sort ou insertion)
 void trierLivres(Livre *livres, int nbLivres);

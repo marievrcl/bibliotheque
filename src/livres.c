@@ -115,13 +115,11 @@ int rechercherLivre(Livre *livres, int nbLivres, char *titre) {
 }
 
 // === RECHERCHER UN LIVRE PAR ISBN ===
-int rechercherLivreParISBN(Livre *livres, int nbLivres, char *isbn) {
-    for (int i = 0; i < nbLivres; i++) {
-        if (strcmp(livres[i].isbn, isbn) == 0) { // comparaison exacte
-            return i;  // retourne l'index si trouvé
-        }
+int rechercherLivreParISBN(Livre *livres, int nbLivres, const char *isbn) {
+    for(int i = 0; i < nbLivres; i++) {
+        if(strcmp(livres[i].isbn, isbn) == 0) return i;
     }
-    return -1; // pas trouvé
+    return -1;
 }
 
 // === TRIER LES LIVRES PAR TITRE (tri simple par échange) ===
