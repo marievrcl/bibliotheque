@@ -63,6 +63,17 @@ data/ → contient les fichiers textes
 
 - Voir tous les emprunts en cours
 
+### Statistiques 
+
+- Voir le nombre total d’emprunts
+- Voir Top emprunteurs
+- Voir Livres les plus empruntés
+- Voir Taux d’utilisation
+
+### Fonction recherche 
+- Rechercher un livre via son titre et afficher l'ensemble de ses informations
+
+
 ### Interface graphique
 
 - Menus visuels 
