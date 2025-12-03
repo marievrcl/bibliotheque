@@ -248,9 +248,21 @@ int main(void)
         // ================== STATISTIQUES ==================
         else if(mode==STATS)
         {
-            DrawText("Statistiques",50,30,25,DARKGRAY);
-            afficherStatistiques(emprunts,nbEmprunts,utilisateurs,nbUsers,livres,nbLivres);
+            DrawText("Statistiques", 50, 30, 25, DARKGRAY);
+
+            int y = 80;
+            for(int i=0;i<nbLivres;i++)
+            {
+                char buf[200];
+                snprintf(buf, sizeof(buf), "%d - %s [%s] - %s",
+                         livres[i].id, livres[i].titre, livres[i].categorie,
+                         livres[i].disponible ? "Dispo" : "Emprunté");
+                DrawText(buf, 50, y, 20, BLACK);
+                y += 25;
+            }
+
             if(GuiButton((Rectangle){600,500,250,40},"Retour menu")) mode=MENU;
+
         }
 
         EndDrawing();
