@@ -70,10 +70,6 @@ data/ → contient les fichiers textes
 - Voir Livres les plus empruntés
 - Voir Taux d’utilisation
 
-### Fonction recherche 
-- Rechercher un livre via son titre et afficher l'ensemble de ses informations
-
-
 ### Interface graphique
 
 - Menus visuels 
