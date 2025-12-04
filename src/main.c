@@ -1,15 +1,3 @@
-//
-// Created by Marie Viricel on 06/11/2025.
-//
-
-//
-// main.c
-// Bibliothèque - Interface graphique
-//
-
-//
-// Created by Marie Viricel on 06/11/2025.
-//
 
 //
 // main.c
@@ -107,43 +95,67 @@ int main(void)
         }
 
         // ================== AJOUT LIVRE ==================
-        else if(mode==AJOUT_LIVRE)
-        {
-            DrawText("Ajouter un livre",50,30,25,DARKGRAY);
-            DrawText("Titre :",50,120,20,BLACK);
-            titreEdit=GuiTextBox((Rectangle){140,110,500,40},titreInput,sizeof(titreInput),titreEdit);
-            DrawText("Auteur :",50,170,20,BLACK);
-            auteurEdit=GuiTextBox((Rectangle){140,160,500,40},auteurInput,sizeof(auteurInput),auteurEdit);
-            DrawText("Catégorie :",50,220,20,BLACK);
-            categorieEdit=GuiTextBox((Rectangle){140,210,300,40},categorieInput,sizeof(categorieInput),categorieEdit);
-            DrawText("ISBN :",50,270,20,BLACK);
-            isbnEdit=GuiTextBox((Rectangle){140,260,200,40},isbnInput,sizeof(isbnInput),isbnEdit);
-            DrawText("Année :",50,320,20,BLACK);
-            anneeEdit=GuiTextBox((Rectangle){140,310,100,40},anneeBuf,sizeof(anneeBuf),anneeEdit);
+        else if (mode == AJOUT_LIVRE)
+{
+    DrawText("Ajouter un livre", 50, 30, 25, DARKGRAY);
 
-            if(GuiButton((Rectangle){140,380,200,40},"Valider"))
-            {
-                Livre nouveau;
-                strcpy(nouveau.titre,titreInput);
-                strcpy(nouveau.auteur,auteurInput);
-                strcpy(nouveau.categorie,categorieInput);
-                strcpy(nouveau.isbn,isbnInput);
-                nouveau.annee=atoi(anneeBuf);
-                ajouterLivreGui(livres,&nbLivres,nouveau);
+    Rectangle rTitre     = (Rectangle){140,110,500,40};
+    Rectangle rAuteur    = (Rectangle){140,160,500,40};
+    Rectangle rCategorie = (Rectangle){140,210,300,40};
+    Rectangle rISBN      = (Rectangle){140,260,200,40};
+    Rectangle rAnnee     = (Rectangle){140,310,100,40};
 
-                titreInput[0]=auteurInput[0]=categorieInput[0]=isbnInput[0]='\0';
-                anneeBuf[0]='\0';
-                titreEdit=auteurEdit=categorieEdit=isbnEdit=anneeEdit=false;
-                mode=LIVRES;
-            }
-            if(GuiButton((Rectangle){140,440,200,40},"Annuler"))
-            {
-                titreInput[0]=auteurInput[0]=categorieInput[0]=isbnInput[0]='\0';
-                anneeBuf[0]='\0';
-                titreEdit=auteurEdit=categorieEdit=isbnEdit=anneeEdit=false;
-                mode=LIVRES;
-            }
-        }
+    // Gestion du toggle d’édition
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        Vector2 m = GetMousePosition();
+        titreEdit     = CheckCollisionPointRec(m, rTitre);
+        auteurEdit    = CheckCollisionPointRec(m, rAuteur);
+        categorieEdit = CheckCollisionPointRec(m, rCategorie);
+        isbnEdit      = CheckCollisionPointRec(m, rISBN);
+        anneeEdit     = CheckCollisionPointRec(m, rAnnee);
+    }
+
+    DrawText("Titre :", 50, 120, 20, BLACK);
+    GuiTextBox(rTitre, titreInput, sizeof(titreInput)-1, titreEdit);
+
+    DrawText("Auteur :", 50, 170, 20, BLACK);
+    GuiTextBox(rAuteur, auteurInput, sizeof(auteurInput)-1, auteurEdit);
+
+    DrawText("Catégorie :", 50, 220, 20, BLACK);
+    GuiTextBox(rCategorie, categorieInput, sizeof(categorieInput)-1, categorieEdit);
+
+    DrawText("ISBN :", 50, 270, 20, BLACK);
+    GuiTextBox(rISBN, isbnInput, sizeof(isbnInput)-1, isbnEdit);
+
+    DrawText("Année :", 50, 320, 20, BLACK);
+    GuiTextBox(rAnnee, anneeBuf, sizeof(anneeBuf)-1, anneeEdit);
+
+    if (GuiButton((Rectangle){140,380,200,40}, "Valider"))
+    {
+        Livre L;
+        strcpy(L.titre, titreInput);
+        strcpy(L.auteur, auteurInput);
+        strcpy(L.categorie, categorieInput);
+        strcpy(L.isbn, isbnInput);
+        L.annee = atoi(anneeBuf);
+
+        ajouterLivreGui(livres, &nbLivres, L);
+
+        titreInput[0]=auteurInput[0]=categorieInput[0]=isbnInput[0]=anneeBuf[0]=0;
+        titreEdit=auteurEdit=categorieEdit=isbnEdit=anneeEdit=false;
+
+        mode = LIVRES;
+    }
+
+    if (GuiButton((Rectangle){140,440,200,40}, "Annuler"))
+    {
+        titreInput[0]=auteurInput[0]=categorieInput[0]=isbnInput[0]=anneeBuf[0]=0;
+        titreEdit=auteurEdit=categorieEdit=isbnEdit=anneeEdit=false;
+        mode = LIVRES;
+    }
+}
+
 
         // ================== SUPPR LIVRE ==================
         else if(mode==SUPPR_LIVRE)
