@@ -188,32 +188,58 @@ int main(void)
         }
 
         // ================== AJOUT USER ==================
-        else if(mode==AJOUT_USER)
+        else if (mode == AJOUT_USER)
         {
-            DrawText("Ajouter un utilisateur",50,30,25,DARKGRAY);
-            DrawText("Nom :",50,110,20,BLACK);
-            nomEdit=GuiTextBox((Rectangle){140,100,500,40},nomInput,sizeof(nomInput),nomEdit);
-            DrawText("Prénom :",50,160,20,BLACK);
-            prenomEdit=GuiTextBox((Rectangle){140,150,500,40},prenomInput,sizeof(prenomInput),prenomEdit);
-            DrawText("Email :",50,210,20,BLACK);
-            emailEdit=GuiTextBox((Rectangle){140,200,500,40},emailInput,sizeof(emailInput),emailEdit);
+            DrawText("Ajouter un utilisateur", 50, 30, 25, DARKGRAY);
 
-            if(GuiButton((Rectangle){140,270,200,40},"Valider"))
+            Rectangle rNom    = (Rectangle){140,100,500,40};
+            Rectangle rPrenom = (Rectangle){140,150,500,40};
+            Rectangle rEmail  = (Rectangle){140,200,500,40};
+
+            // Gestion du toggle d’édition
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
             {
-                if(strlen(nomInput)==0||strlen(prenomInput)==0||strlen(emailInput)==0) {}
+                Vector2 m = GetMousePosition();
+                nomEdit    = CheckCollisionPointRec(m, rNom);
+                prenomEdit = CheckCollisionPointRec(m, rPrenom);
+                emailEdit  = CheckCollisionPointRec(m, rEmail);
+            }
+
+            DrawText("Nom :", 50, 110, 20, BLACK);
+            GuiTextBox(rNom, nomInput, sizeof(nomInput)-1, nomEdit);
+
+            DrawText("Prénom :", 50, 160, 20, BLACK);
+            GuiTextBox(rPrenom, prenomInput, sizeof(prenomInput)-1, prenomEdit);
+
+            DrawText("Email :", 50, 210, 20, BLACK);
+            GuiTextBox(rEmail, emailInput, sizeof(emailInput)-1, emailEdit);
+
+            // ---------- BOUTON VALIDER ----------
+            if (GuiButton((Rectangle){140,270,200,40}, "Valider"))
+            {
+                if (strlen(nomInput) == 0 || strlen(prenomInput) == 0 || strlen(emailInput) == 0)
+                {
+                    // tu peux mettre un message d'erreur si tu veux
+                }
                 else
                 {
-                    ajouterUtilisateurManuel(utilisateurs,&nbUsers,nomInput,prenomInput,emailInput,0);
-                    nomInput[0]=prenomInput[0]=emailInput[0]='\0';
-                    nomEdit=prenomEdit=emailEdit=false;
-                    mode=USERS;
+                    ajouterUtilisateurManuel(utilisateurs, &nbUsers, nomInput, prenomInput, emailInput, 0);
+
+                    // Reset
+                    nomInput[0] = prenomInput[0] = emailInput[0] = 0;
+                    nomEdit = prenomEdit = emailEdit = false;
+
+                    mode = USERS;
                 }
             }
-            if(GuiButton((Rectangle){140,320,200,40},"Annuler"))
+
+            // ---------- BOUTON ANNULER ----------
+            if (GuiButton((Rectangle){140,320,200,40}, "Annuler"))
             {
-                nomInput[0]=prenomInput[0]=emailInput[0]='\0';
-                nomEdit=prenomEdit=emailEdit=false;
-                mode=USERS;
+                nomInput[0] = prenomInput[0] = emailInput[0] = 0;
+                nomEdit = prenomEdit = emailEdit = false;
+
+                mode = USERS;
             }
         }
 
